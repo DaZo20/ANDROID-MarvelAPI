@@ -42,6 +42,11 @@ android {
             buildConfigField("String", "PRIVATE_KEY","\"${localProperties["PRIVATE_KEY"]}\"")
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
