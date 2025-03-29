@@ -16,7 +16,7 @@ icons = "1.7.8"
 constraintLayout = "1.1.1"
 okHttp = "4.12.0"
 mockk = "1.13.17"
-coil = "3.1.0"
+coil = "2.4.0"
 navigationCompose = "2.8.9"
 kotlinSerialization = "1.6.3"
 paging3 = "3.3.0"
@@ -50,7 +50,7 @@ constraint-layout = { group = "androidx.constraintlayout", name = "constraintlay
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttp" }
 mockk-core = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization"}
 

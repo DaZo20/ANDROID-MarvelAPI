@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization.json)
 }
 
-val localProperties = Properties().apply{
+val localProperties = Properties().apply {
     load(File(rootProject.projectDir, "local.properties").inputStream())
 }
 
@@ -29,8 +29,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "PUBLIC_KEY","\"${localProperties["PUBLIC_KEY"]}\"")
-            buildConfigField("String", "PRIVATE_KEY","\"${localProperties["PRIVATE_KEY"]}\"")
+            buildConfigField("String", "PUBLIC_KEY", "\"${localProperties["PUBLIC_KEY"]}\"")
+            buildConfigField("String", "PRIVATE_KEY", "\"${localProperties["PRIVATE_KEY"]}\"")
         }
         release {
             isMinifyEnabled = false
@@ -38,8 +38,17 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "PUBLIC_KEY","\"${localProperties["PUBLIC_KEY"]}\"")
-            buildConfigField("String", "PRIVATE_KEY","\"${localProperties["PRIVATE_KEY"]}\"")
+            buildConfigField("String", "PUBLIC_KEY", "\"${localProperties["PUBLIC_KEY"]}\"")
+            buildConfigField("String", "PRIVATE_KEY", "\"${localProperties["PRIVATE_KEY"]}\"")
+        }
+    }
+
+    packaging {
+        resources {
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/NOTICE.md"
         }
     }
 
@@ -92,7 +101,7 @@ dependencies {
 
     //Coil
     implementation(libs.coil.compose)
-    
+
     //Navigation Compose
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
