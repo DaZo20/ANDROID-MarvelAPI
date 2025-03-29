@@ -20,6 +20,8 @@ coil = "2.4.0"
 navigationCompose = "2.8.9"
 kotlinSerialization = "1.6.3"
 paging3 = "3.3.0"
+coreTesting = "2.2.0"
+coroutinesTest = "1.10.1"
 
 
 [libraries]
@@ -37,6 +39,8 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTesting" }
+org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 retrofit-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
