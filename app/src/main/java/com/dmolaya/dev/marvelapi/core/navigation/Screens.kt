@@ -8,9 +8,9 @@ object Splash
 sealed interface Route {
 
     @Serializable
-    data object CharactersList
+    object CharactersList
 
     @Serializable
-    data object CharactersDetail
+    data class CharactersDetail(val characterId: Int)
 
 }

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MarvelAPI</string>
+    <string name="comic_label">"Comics: "</string>
+    <string name="description_label">"Descripción: "</string>
+    <string name="error_loading_character">Error al cargar el personaje</string>
+    <string name="retry_text_button">Reintentar</string>
+    <string name="empty_characters_text">No hay personajes</string>
+    <string name="error_loading_characters_text">Error al cargar los personajes</string>
 </resources>

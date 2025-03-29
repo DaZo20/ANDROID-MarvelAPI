@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.dmolaya.dev.marvelapi.characters.ui.screen.CharacterDetailScreen
 import com.dmolaya.dev.marvelapi.characters.ui.screen.CharactersListScreen
 import com.dmolaya.dev.marvelapi.splash.ui.screen.SplashScreen
 import com.dmolaya.dev.marvelapi.core.navigation.Route.CharactersDetail
@@ -35,16 +37,17 @@ fun NavigationWrapper() {
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            CharactersListScreen({
-                navController.navigate(CharactersDetail)
+            CharactersListScreen({ characterId ->
+                navController.navigate(CharactersDetail(characterId))
             })
         }
 
         composable<CharactersDetail>(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
-        ) {
-
+        ) { backStackEntry ->
+            val detailScreen: CharactersDetail = backStackEntry.toRoute()
+            CharacterDetailScreen(detailScreen.characterId)
         }
 
     }
