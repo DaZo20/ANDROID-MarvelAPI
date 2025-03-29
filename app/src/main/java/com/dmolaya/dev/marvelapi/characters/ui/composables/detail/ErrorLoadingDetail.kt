@@ -1,8 +1,9 @@
-package com.dmolaya.dev.marvelapi.characters.ui.composables
+package com.dmolaya.dev.marvelapi.characters.ui.composables.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,6 +23,7 @@ import com.dmolaya.dev.marvelapi.ui.theme.RedMarvel
 @Composable
 fun ErrorLoadingDetail(characterId: Int, characterDetailViewModel: CharacterDetailViewModel){
     Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

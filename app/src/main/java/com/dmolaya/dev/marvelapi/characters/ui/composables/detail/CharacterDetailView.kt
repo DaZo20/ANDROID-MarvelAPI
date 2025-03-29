@@ -1,8 +1,11 @@
-package com.dmolaya.dev.marvelapi.characters.ui.composables
+package com.dmolaya.dev.marvelapi.characters.ui.composables.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +14,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +29,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,22 +38,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import coil3.compose.rememberAsyncImagePainter
+import androidx.paging.compose.LazyPagingItems
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.dmolaya.dev.marvelapi.R
 import com.dmolaya.dev.marvelapi.characters.domain.model.Character
 import com.dmolaya.dev.marvelapi.characters.domain.model.Comic
 import com.dmolaya.dev.marvelapi.ui.theme.DarkGray
 
 @Composable
-fun CharacterDetailView(character: Character, comicList: List<Comic>){
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+fun CharacterDetailView(
+    character: Character,
+    comicList: LazyPagingItems<Comic>
+) {
+    Scaffold { paddingValues ->
+
         ConstraintLayout(
             modifier = Modifier
                 .background(DarkGray)
                 .fillMaxSize()
+                .padding(bottom = paddingValues.calculateBottomPadding())
         ) {
             val (imgBack, backAlpha, gradient, img, name, descriptionHeader, description, comicsHeader, comics) = createRefs()
             Image(
@@ -77,11 +87,16 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
             )
 
             Image(
-                painter = rememberAsyncImagePainter(character.thumbnail),
+                painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(character.thumbnail)
+                        .crossfade(true)
+                        .build()
+                ),
                 contentDescription = "character_image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.4f)
                     .fillMaxWidth(0.8f)
                     .clip(RoundedCornerShape(10.dp))
                     .constrainAs(img) {
@@ -115,7 +130,7 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
-                    .constrainAs(name){
+                    .constrainAs(name) {
                         bottom.linkTo(img.bottom, margin = 38.dp)
                         start.linkTo(parent.start, margin = 16.dp)
                         end.linkTo(parent.end, margin = 16.dp)
@@ -130,7 +145,7 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
                 fontStyle = FontStyle.Italic,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .constrainAs(descriptionHeader){
+                    .constrainAs(descriptionHeader) {
                         top.linkTo(img.bottom, margin = 8.dp)
                         start.linkTo(parent.start, margin = 32.dp)
                         end.linkTo(parent.end)
@@ -141,11 +156,12 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
             Text(
                 text = character.description,
                 color = Color.White,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 textAlign = TextAlign.Justify,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
-                    .constrainAs(description){
+                    .heightIn(min = 100.dp)
+                    .constrainAs(description) {
                         top.linkTo(descriptionHeader.bottom, margin = 16.dp)
                         start.linkTo(parent.start, margin = 32.dp)
                         end.linkTo(parent.end, margin = 32.dp)
@@ -161,7 +177,7 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
                 fontStyle = FontStyle.Italic,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .constrainAs(comicsHeader){
+                    .constrainAs(comicsHeader) {
                         top.linkTo(description.bottom, margin = 16.dp)
                         start.linkTo(parent.start, margin = 32.dp)
                         end.linkTo(parent.end)
@@ -171,31 +187,32 @@ fun CharacterDetailView(character: Character, comicList: List<Comic>){
 
             LazyRow(
                 modifier = Modifier
-                    .constrainAs(comics){
+                    .constrainAs(comics) {
                         top.linkTo(comicsHeader.bottom, margin = 16.dp)
                         start.linkTo(parent.start, margin = 32.dp)
                         end.linkTo(parent.end, margin = 32.dp)
-                        bottom.linkTo(parent.bottom, margin = 16.dp)
+                        bottom.linkTo(parent.bottom)
                         width = Dimension.fillToConstraints
                         height = Dimension.fillToConstraints
                     }
-            ){
-                items(comicList){ comic ->
-                    CharacterItem(comic)
+            ) {
+                items(comicList.itemCount) { comics ->
+                    comicList[comics]?.let { ComicCharacterItem(it) }
                 }
             }
 
         }
     }
+
 }
 
 @Composable
-fun CharacterItem(comic: Comic) {
+fun ComicCharacterItem(comic: Comic) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp)
-            .aspectRatio(0.8f),
+            .padding(2.dp)
+            .aspectRatio(1f),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
@@ -223,13 +240,13 @@ fun CharacterItem(comic: Comic) {
             )
 
             Text(
-                text = comic.title ,
+                text = comic.title,
                 color = DarkGray,
                 fontWeight = FontWeight.Medium,
                 fontSize = 10.sp,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
-                    .padding(12.dp)
+                    .padding(start = 12.dp, top = 4.dp)
                     .constrainAs(name) {
                         top.linkTo(img.bottom)
                         start.linkTo(parent.start)
