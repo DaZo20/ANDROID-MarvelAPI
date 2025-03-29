@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.Assert.assertEquals
+
 class GetCharacterByIdUCTest {
 
     @RelaxedMockK
@@ -50,7 +50,7 @@ class GetCharacterByIdUCTest {
         runBlocking {
             // Given
             val characterId = 1
-            val expectedError = "Character not found"
+            val expectedError = "Error fetching character"
 
             // When
             coEvery { characterRepository.getCharacterById(characterId) } returns flowOf(
