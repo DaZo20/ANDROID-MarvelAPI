@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -96,6 +97,7 @@ fun CharacterDetailView(
                 contentDescription = "character_image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .testTag("character_detail_image_tag")
                     .fillMaxHeight(0.4f)
                     .fillMaxWidth(0.8f)
                     .clip(RoundedCornerShape(10.dp))
@@ -130,6 +132,7 @@ fun CharacterDetailView(
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
+                    .testTag("character_detail_name_tag")
                     .constrainAs(name) {
                         bottom.linkTo(img.bottom, margin = 38.dp)
                         start.linkTo(parent.start, margin = 16.dp)
@@ -160,6 +163,7 @@ fun CharacterDetailView(
                 textAlign = TextAlign.Justify,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
+                    .testTag("character_detail_description_tag")
                     .heightIn(min = 100.dp)
                     .constrainAs(description) {
                         top.linkTo(descriptionHeader.bottom, margin = 16.dp)
@@ -210,6 +214,7 @@ fun CharacterDetailView(
 fun ComicCharacterItem(comic: Comic) {
     Card(
         modifier = Modifier
+            .testTag("character_detail_comic_tag")
             .fillMaxWidth()
             .padding(2.dp)
             .aspectRatio(1f),

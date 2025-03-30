@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -51,6 +52,7 @@ fun SplashScreen(onNavigateToCharacters: () -> Unit, splashScreenViewModel: Spla
             contentDescription = "",
             contentScale = ContentScale.Fit,
             modifier = Modifier
+                .testTag("splash_screen_logo_tag")
                 .alpha(animatedAlpha) //Check with graphicsLayer
                 .constrainAs(img) {
                 top.linkTo(parent.top)

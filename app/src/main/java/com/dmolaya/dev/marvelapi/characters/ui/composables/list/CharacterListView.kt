@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,6 +55,7 @@ fun CharactersListView(
 ) {
     LazyVerticalGrid(
         modifier = Modifier
+            .testTag("character_list_screen_tag")
             .fillMaxSize()
             .background(DarkGray)
             .padding(
@@ -80,7 +82,8 @@ fun CharacterItem(character: Character, onClick: (Int) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
-            .aspectRatio(0.8f),
+            .aspectRatio(0.8f)
+            .testTag("character_item_tag"),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
@@ -175,7 +178,9 @@ fun CustomSearchBar(
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 shape = RoundedCornerShape(14.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .testTag("character_search_tag")
+                    .fillMaxWidth()
             )
         },
         expanded = active,

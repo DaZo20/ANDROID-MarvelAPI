@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import com.dmolaya.dev.marvelapi.ui.theme.RedMarvel
 fun ErrorLoadingList(errorText: String, onClickRetry: () -> Unit ){
     Box(
         modifier = Modifier
+            .testTag("empty_state_tag")
             .background(DarkGray)
             .fillMaxSize(),
         contentAlignment = Alignment.Center

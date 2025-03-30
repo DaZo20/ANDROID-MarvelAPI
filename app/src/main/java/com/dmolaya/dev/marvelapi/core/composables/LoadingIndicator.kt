@@ -9,6 +9,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.dmolaya.dev.marvelapi.ui.theme.DarkGray
 import com.dmolaya.dev.marvelapi.ui.theme.RedMarvel
@@ -17,6 +18,7 @@ import com.dmolaya.dev.marvelapi.ui.theme.RedMarvel
 fun LoadingIndicator() {
     Box(
         modifier = Modifier
+            .testTag("loading_indicator_tag")
             .background(DarkGray.copy(alpha = 0.7f))
             .fillMaxSize(),
         contentAlignment = Alignment.Center
