@@ -123,6 +123,12 @@ dependencies {
     testImplementation(libs.mockk.core)
     androidTestImplementation(libs.mockk.android)
 
+    //Hilt Test
+    kspTest(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.compiler)
+    testImplementation(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.testing)
+
     //Coroutines Test
     testImplementation(libs.org.jetbrains.kotlinx.coroutines.test)
 }
