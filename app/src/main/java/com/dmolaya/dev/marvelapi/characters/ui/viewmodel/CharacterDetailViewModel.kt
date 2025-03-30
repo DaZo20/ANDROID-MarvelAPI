@@ -11,16 +11,12 @@ import com.dmolaya.dev.marvelapi.characters.domain.usecases.GetCharacterByIdUC
 import com.dmolaya.dev.marvelapi.characters.domain.usecases.GetCharacterComicsUC
 import com.dmolaya.dev.marvelapi.core.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -47,33 +43,6 @@ class CharacterDetailViewModel @Inject constructor(
         }
     }
 
-    fun loadCharacterByIdAsync(characterId: Int) {
-        viewModelScope.launch {
-            _uiState.value = UiState.Loading
-            try {
-                getCharacterByIdUC(characterId).collect { result ->
-                    if (result.isSuccess) {
-                        _character.value = result.getOrDefault(Character.EMPTY)
-                        _uiState.value = UiState.Success(result.getOrNull())
-                    } else {
-                        _uiState.value = UiState.Error(result.exceptionOrNull()?.toString() ?: "Unknown error")
-                    }
-                }
-
-                // Lanzamos una llamada concurrente para obtener los cómics
-                val comicsDeferred = async { getCharacterComicsUC(characterId) }
-
-                _uiState.value = UiState.Success(character)
-
-                // Esperamos la respuesta de los cómics sin bloquear el hilo
-                comics = comicsDeferred.await()
-            } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.toString())
-            }
-        }
-    }
-
-
     fun loadCharacterById(characterId: Int) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -99,11 +68,13 @@ class CharacterDetailViewModel @Inject constructor(
                         }
                     }
                         .onFailure { error ->
-                            _uiState.value = UiState.Error(error.toString())
+                            val errorMessage = error.message ?: "Error desconocido"
+                            _uiState.value = UiState.Error(errorMessage)
                         }
                 }
             } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.toString())
+                val errorMessage = e.message ?: "Error desconocido"
+                _uiState.value = UiState.Error(errorMessage)
             }
         }
     }
