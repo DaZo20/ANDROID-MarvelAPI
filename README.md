@@ -14,7 +14,6 @@
 - Architecture -> Clean
 - Json Converter -> Gson
 - HTTP Client -> Retrofit2
-- Database -> Room
 - Dependency injection -> Dagger Hilt
 - Unit Testing -> Mockk
 - Integration Testing
