@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,7 +43,7 @@ fun CharactersListScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val characters = charactersViewModel.characters.collectAsLazyPagingItems()
-    var query by remember { mutableStateOf("") }
+    val query by charactersViewModel.searchQuery.collectAsState()
 
     BackHandler {
         if (backPressedOnce) {
@@ -72,9 +73,9 @@ fun CharactersListScreen(
     }
 
     LaunchedEffect(query) {
-        if (query.isNotEmpty()) {
-            charactersViewModel.getCharacterByName(query)
-        } else {
+        if (query.isNotEmpty() && query != charactersViewModel.lastQuery) {
+            charactersViewModel.updateSearchQuery(query)
+        } else if (query.isEmpty()) {
             charactersViewModel.getCharactersByPage()
         }
     }
@@ -84,10 +85,12 @@ fun CharactersListScreen(
         topBar = {
             CustomSearchBar(
                 query = query,
-                onQueryChange = { query = it },
+                onQueryChange = { newQuery ->
+                    charactersViewModel.updateSearchQuery(newQuery)
+                },
             )
         }
-    ){ paddingValues ->
+    ) { paddingValues ->
 
         when {
 

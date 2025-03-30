@@ -1,5 +1,6 @@
 package com.dmolaya.dev.marvelapi.characters.ui.composables.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,12 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dmolaya.dev.marvelapi.R
 import com.dmolaya.dev.marvelapi.characters.ui.viewmodel.CharacterDetailViewModel
+import com.dmolaya.dev.marvelapi.ui.theme.DarkGray
 import com.dmolaya.dev.marvelapi.ui.theme.RedMarvel
 
 @Composable
 fun ErrorLoadingDetail(characterId: Int, characterDetailViewModel: CharacterDetailViewModel){
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .background(DarkGray)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -35,7 +39,7 @@ fun ErrorLoadingDetail(characterId: Int, characterDetailViewModel: CharacterDeta
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { /*add load function*/ },
+            onClick = { characterDetailViewModel.loadCharacterById(characterId) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = RedMarvel
             )

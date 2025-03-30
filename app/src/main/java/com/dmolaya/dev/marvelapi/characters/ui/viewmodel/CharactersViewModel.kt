@@ -10,6 +10,8 @@ import com.dmolaya.dev.marvelapi.characters.domain.model.Character
 import com.dmolaya.dev.marvelapi.characters.domain.usecases.GetCharacterByNameUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -25,6 +27,22 @@ class CharactersViewModel @Inject constructor(
 ) : ViewModel() {
 
     var characters: Flow<PagingData<Character>> = flowOf(PagingData.empty())
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery
+    var lastQuery = ""
+    // Función para actualizar el query
+    fun updateSearchQuery(query: String) {
+        if (query != lastQuery) {
+            _searchQuery.value = query
+            lastQuery = query
+            if (query.isNotEmpty()) {
+                getCharacterByName(query)
+            } else {
+                getCharactersByPage()
+            }
+        }
+    }
 
     init {
         getCharactersByPage()
