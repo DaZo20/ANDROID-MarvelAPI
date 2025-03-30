@@ -11,6 +11,7 @@ import com.dmolaya.dev.marvelapi.characters.domain.model.Comics
 import com.dmolaya.dev.marvelapi.characters.domain.model.Item
 import com.dmolaya.dev.marvelapi.characters.domain.usecases.GetCharacterByIdUC
 import com.dmolaya.dev.marvelapi.characters.domain.usecases.GetCharacterComicsUC
+import com.dmolaya.dev.marvelapi.characters.utils.TestRetrofitInstance
 import com.dmolaya.dev.marvelapi.core.utils.UiState
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
@@ -47,11 +48,7 @@ class CharacterDetailViewModelIntegrationTest {
 
     @Before
     fun setup() {
-        apiService = Retrofit.Builder()
-            .baseUrl("https://gateway.marvel.com/v1/public/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CharactersApiService::class.java)
+        apiService = TestRetrofitInstance.apiService
 
         // Usa el DataSource real
         dataSource = CharactersDataSourceImpl(apiService)
